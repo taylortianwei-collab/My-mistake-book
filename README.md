@@ -39,7 +39,22 @@ A desktop application designed for students and parents to manage wrong answers 
 - **Intel**: [Download .dmg](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book-1.0.0.dmg) (98MB)
 
 ### Windows
-- **Windows**: [Download .exe](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book.Setup.1.0.0.exe) (83MB)
+- **Windows**: [Download Portable .exe](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book.1.0.0.exe) (71MB) - No installation required, run directly
+
+## 🚀 Quick Start
+
+### macOS
+1. Download the `.dmg` file
+2. Double-click to open
+3. Drag **Mistake Book** to Applications folder
+4. Open from Launchpad
+
+### Windows
+1. Download the portable `.exe` file
+2. Double-click to run directly (no installation needed)
+3. The app will create its data folder automatically
+
+> 💡 **Tip**: You can put the exe on a USB drive and run it on any Windows computer!
 
 ## 🚀 Development
 
