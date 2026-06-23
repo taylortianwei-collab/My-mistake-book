@@ -1,7 +1,7 @@
 {
   "name": "mistake-book",
   "version": "1.0.0",
-  "description": "错题本 - 电子错题管理桌面应用",
+  "description": "Mistake Book - Smart Error Tracking Desktop App",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -16,7 +16,7 @@
   },
   "build": {
     "appId": "com.mistake-book.app",
-    "productName": "错题本",
+    "productName": "Mistake Book",
     "directories": {
       "output": "release"
     },
