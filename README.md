@@ -35,11 +35,11 @@ A desktop application designed for students and parents to manage wrong answers 
 ## 📦 Download
 
 ### macOS
-- **Apple Silicon (M1/M2/M3)**: [Download .dmg](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake%20Book-1.0.0-arm64.dmg) (94MB)
-- **Intel**: [Download .dmg](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake%20Book-1.0.0.dmg) (98MB)
+- **Apple Silicon (M1/M2/M3)**: [Download .dmg](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book-1.0.0-arm64.dmg) (94MB)
+- **Intel**: [Download .dmg](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book-1.0.0.dmg) (98MB)
 
 ### Windows
-- **Windows**: [Download .exe](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake%20Book%20Setup%201.0.0.exe) (83MB)
+- **Windows**: [Download .exe](https://github.com/taylortianwei-collab/My-mistake-book/releases/download/v1.0.0/Mistake.Book.Setup.1.0.0.exe) (83MB)
 
 ## 🚀 Development
 
