@@ -30,8 +30,8 @@
       </div>
 
       <div class="quiz-content">
-        <div class="quiz-image-container" @click="toggleZoom">
-          <img :src="currentImageSrc" class="quiz-image" :class="{ zoomed: imageZoomed }" />
+        <div class="quiz-image-container" @click="openImageLightbox">
+          <img :src="currentImageSrc" class="quiz-image" />
         </div>
 
         <div class="quiz-answer-area">
@@ -77,6 +77,16 @@
         </div>
       </div>
     </div>
+
+    <!-- Image Lightbox -->
+    <Teleport to="body">
+      <div v-if="showImageLightbox" class="lightbox-overlay" @click="closeImageLightbox">
+        <div class="lightbox-content">
+          <button class="lightbox-close" @click="closeImageLightbox">✕</button>
+          <img :src="currentImageSrc" class="lightbox-image" @click.stop />
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -101,7 +111,7 @@ const currentCategoryName = ref('')
 const userAnswer = ref('')
 const showResult = ref(false)
 const isCorrect = ref(false)
-const imageZoomed = ref(false)
+const showImageLightbox = ref(false)
 const finished = ref(false)
 const correctCount = ref(0)
 
@@ -139,7 +149,7 @@ async function loadCurrentQuestion() {
   userAnswer.value = ''
   showResult.value = false
   isCorrect.value = false
-  imageZoomed.value = false
+  showImageLightbox.value = false
   startTime.value = Date.now()
 
   const cat = categoryStore.getCategoryById(q.categoryId)
@@ -223,8 +233,12 @@ async function abandonQuiz() {
   router.push('/quiz/setup')
 }
 
-function toggleZoom() {
-  imageZoomed.value = !imageZoomed.value
+function openImageLightbox() {
+  showImageLightbox.value = true
+}
+
+function closeImageLightbox() {
+  showImageLightbox.value = false
 }
 </script>
 
@@ -278,13 +292,6 @@ function toggleZoom() {
   width: 100%;
   max-height: 360px;
   object-fit: contain;
-  transition: all 0.3s ease;
-}
-
-.quiz-image.zoomed {
-  max-height: none;
-  transform: scale(1.5);
-  transform-origin: center center;
 }
 
 .quiz-answer-area {
@@ -346,5 +353,56 @@ function toggleZoom() {
 .finished-state {
   text-align: center;
   padding: 60px 20px;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-image {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  cursor: default;
 }
 </style>
