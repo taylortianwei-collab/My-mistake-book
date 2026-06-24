@@ -20,6 +20,14 @@ export const useQuestionStore = defineStore('question', () => {
   }
 
   async function addQuestion(data: Omit<Question, 'id' | 'createdAt' | 'updatedAt'>): Promise<number> {
+    const existing = await db.questions
+      .where('imageName')
+      .equals(data.imageName)
+      .filter(q => q.categoryId === data.categoryId)
+      .first()
+
+    if (existing) return existing.id!
+
     const id = await db.questions.add({
       ...data,
       createdAt: new Date(),

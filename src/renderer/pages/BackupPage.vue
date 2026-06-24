@@ -105,7 +105,6 @@ async function importData() {
       await db.quizSessions.clear()
       await db.quizAnswers.clear()
 
-      // Build old→new category ID mapping
       const categoryIdMap = new Map<number, number>()
       for (const cat of data.categories) {
         const { id, ...catData } = cat
@@ -113,10 +112,16 @@ async function importData() {
         if (id) categoryIdMap.set(id, newId as number)
       }
 
+      const importedKeys = new Set<string>()
       for (const q of data.questions) {
         const { id, categoryId: oldCategoryId, imageData, ...qData } = q
         const newCategoryId = categoryIdMap.get(oldCategoryId) || oldCategoryId
         const blob = imageData ? base64ToBlob(imageData) : new Blob()
+
+        const dedupeKey = `${qData.imageName}_${newCategoryId}`
+        if (importedKeys.has(dedupeKey)) continue
+        importedKeys.add(dedupeKey)
+
         await db.questions.add({ ...qData, categoryId: newCategoryId, imageData: blob })
       }
 
