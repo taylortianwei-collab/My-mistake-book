@@ -55,7 +55,7 @@ const navItems = [
 
 onMounted(async () => {
   await categoryStore.initializeDefaultCategories(
-    t('common.unclassified'),
+    'Uncategorized',
     'Mastered'
   )
 })

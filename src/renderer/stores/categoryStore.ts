@@ -20,28 +20,55 @@ export const useCategoryStore = defineStore('category', () => {
   }
 
   async function initializeDefaultCategories(unclassifiedName: string, masteredName: string) {
-    const existingUncat = await db.categories.where('name').equals(unclassifiedName).first()
+    const oldUncatChinese = await db.categories.where('name').equals('未归类').first()
+    const oldMasteredChinese = await db.categories.where('name').equals('已掌握').first()
+    
+    let existingUncat = await db.categories.where('name').equals(unclassifiedName).first()
     if (!existingUncat) {
-      await db.categories.add({
-        name: unclassifiedName,
-        description: '',
-        icon: '📷',
-        sortOrder: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+      existingUncat = {
+        id: await db.categories.add({
+          name: unclassifiedName,
+          description: '',
+          icon: '📷',
+          sortOrder: 0,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+      }
     }
 
-    const existingMastered = await db.categories.where('name').equals(masteredName).first()
+    let existingMastered = await db.categories.where('name').equals(masteredName).first()
     if (!existingMastered) {
-      await db.categories.add({
-        name: masteredName,
-        description: '',
-        icon: '✅',
-        sortOrder: 999,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+      existingMastered = {
+        id: await db.categories.add({
+          name: masteredName,
+          description: '',
+          icon: '✅',
+          sortOrder: 999,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+      }
+    }
+
+    if (oldUncatChinese && oldUncatChinese.id) {
+      const questionsToMigrate = await db.questions.where('categoryId').equals(oldUncatChinese.id).toArray()
+      for (const q of questionsToMigrate) {
+        if (q.id) {
+          await db.questions.update(q.id, { categoryId: existingUncat.id })
+        }
+      }
+      await db.categories.delete(oldUncatChinese.id)
+    }
+
+    if (oldMasteredChinese && oldMasteredChinese.id) {
+      const questionsToMigrate = await db.questions.where('categoryId').equals(oldMasteredChinese.id).toArray()
+      for (const q of questionsToMigrate) {
+        if (q.id) {
+          await db.questions.update(q.id, { categoryId: existingMastered.id })
+        }
+      }
+      await db.categories.delete(oldMasteredChinese.id)
     }
 
     await loadCategories()

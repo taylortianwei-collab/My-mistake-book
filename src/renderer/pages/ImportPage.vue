@@ -207,7 +207,7 @@ async function selectImages() {
   isImageSelection.value = true
   scanResult.value = {
     categories: [{
-      name: t('common.unclassified'),
+      name: 'Uncategorized',
       images: files.map(f => ({
         fileName: f.split('/').pop() || f.split('\\').pop() || '',
         filePath: f,
@@ -324,7 +324,7 @@ async function confirmImport() {
         }
       } else if (isImageSelection.value) {
         if (imageCategoryId.value === 0) {
-          const newName = imageNewCategoryName.value.trim() || t('common.unclassified')
+          const newName = imageNewCategoryName.value.trim() || 'Uncategorized'
           categoryId = await categoryStore.addCategory(newName)
         } else {
           categoryId = imageCategoryId.value
@@ -360,7 +360,7 @@ async function confirmImport() {
     }
 
     for (const img of scanResult.value.uncategorized) {
-      const uncategorizedId = await categoryStore.addCategory(t('common.unclassified'))
+      const uncategorizedId = await categoryStore.addCategory('Uncategorized')
       let blob: Blob
       if (img.filePath.startsWith('blob:')) {
         const resp = await fetch(img.filePath)

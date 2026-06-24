@@ -82,7 +82,7 @@ onMounted(async () => {
   const counts = await Promise.all(
     categories.map(async c => ({
       id: c.id!,
-      name: c.name,
+      name: c.name === 'Uncategorized' ? t('common.unclassified') : c.name === 'Mastered' ? t('mastered.title') : c.name,
       count: await db.questions.where('categoryId').equals(c.id!).count(),
       percent: 0
     }))

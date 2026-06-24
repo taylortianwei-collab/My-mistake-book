@@ -68,7 +68,7 @@ async function loadMastered() {
 }
 
 async function unmark(id: number) {
-  const uncat = categoryStore.categories.find(c => c.name === t('common.unclassified'))
+  const uncat = categoryStore.categories.find(c => c.name === 'Uncategorized')
   if (uncat) {
     await questionStore.updateQuestion(id, {
       categoryId: uncat.id!,

@@ -108,6 +108,8 @@ async function importData() {
       const categoryIdMap = new Map<number, number>()
       for (const cat of data.categories) {
         const { id, ...catData } = cat
+        if (catData.name === '已掌握') catData.name = 'Mastered'
+        if (catData.name === '未归类') catData.name = 'Uncategorized'
         const newId = await db.categories.add(catData)
         if (id) categoryIdMap.set(id, newId as number)
       }

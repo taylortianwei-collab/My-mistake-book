@@ -115,7 +115,7 @@ const selectedIds = ref<Set<number>>(new Set())
 onMounted(async () => {
   await categoryStore.loadCategories()
   const cat = categoryStore.getCategoryById(categoryId)
-  categoryName.value = cat?.name || t('categoryDetail.unknownCategory')
+  categoryName.value = cat?.name === 'Uncategorized' ? t('common.unclassified') : cat?.name === 'Mastered' ? t('mastered.title') : cat?.name || t('categoryDetail.unknownCategory')
   await loadQuestions()
 })
 

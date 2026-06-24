@@ -27,7 +27,7 @@
             :value="cat.id"
             v-model="selectedCategories"
           />
-          <span>{{ cat.icon || '📁' }} {{ cat.name }}</span>
+          <span>{{ cat.icon || '📁' }} {{ getCategoryDisplayName(cat.name) }}</span>
           <span class="tag" style="margin-left: auto">{{ categoryCounts[cat.id!] || 0 }}</span>
         </label>
       </div>
@@ -104,6 +104,12 @@ watch(selectedCategories, async () => {
   }
   estimatedCount.value = total
 }, { immediate: true })
+
+function getCategoryDisplayName(name: string): string {
+  if (name === 'Uncategorized') return t('common.unclassified')
+  if (name === 'Mastered') return t('mastered.title')
+  return name
+}
 
 async function startQuiz() {
   if (selectedCategories.value.length === 0) return

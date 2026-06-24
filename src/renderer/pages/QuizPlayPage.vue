@@ -153,7 +153,7 @@ async function loadCurrentQuestion() {
   startTime.value = Date.now()
 
   const cat = categoryStore.getCategoryById(q.categoryId)
-  currentCategoryName.value = cat?.name || ''
+  currentCategoryName.value = cat?.name === 'Uncategorized' ? t('common.unclassified') : cat?.name === 'Mastered' ? t('mastered.title') : cat?.name || ''
 
   if (q.imageData) {
     currentImageSrc.value = URL.createObjectURL(q.imageData)

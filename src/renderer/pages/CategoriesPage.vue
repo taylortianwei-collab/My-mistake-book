@@ -26,7 +26,7 @@
         <router-link :to="`/categories/${cat.id}`" class="category-item-link">
           <span class="category-icon">{{ cat.icon || '📁' }}</span>
           <div class="category-info">
-            <div class="category-name">{{ cat.name }}</div>
+            <div class="category-name">{{ getCategoryDisplayName(cat.name) }}</div>
             <div class="category-meta">{{ categoryCounts[cat.id!] || 0 }} {{ $t('categories.questions') }}</div>
           </div>
         </router-link>
@@ -62,7 +62,7 @@
     <div v-if="showDeleteModal" class="modal-overlay" @click.self="showDeleteModal = false">
       <div class="modal">
         <div class="modal-title">{{ $t('categories.deleteTitle') }}</div>
-        <p>{{ $t('categories.deleteConfirm', { name: deletingCategory?.name }) }}</p>
+        <p>{{ $t('categories.deleteConfirm', { name: getCategoryDisplayName(deletingCategory?.name || '') }) }}</p>
         <div class="modal-actions">
           <button class="btn btn-secondary" @click="showDeleteModal = false">{{ $t('common.cancel') }}</button>
           <button class="btn btn-danger" @click="deleteCategory">{{ $t('common.delete') }}</button>
@@ -102,6 +102,12 @@ async function loadCounts() {
       categoryCounts.value[cat.id] = await db.questions.where('categoryId').equals(cat.id).count()
     }
   }
+}
+
+function getCategoryDisplayName(name: string): string {
+  if (name === 'Uncategorized') return t('common.unclassified')
+  if (name === 'Mastered') return t('mastered.title')
+  return name
 }
 
 function openAddModal() {

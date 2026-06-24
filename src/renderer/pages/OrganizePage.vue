@@ -119,7 +119,7 @@
             @drop="onDrop($event, cat.id!)"
             @click="selectCategory(cat.id!)"
           >
-            <span class="category-name">{{ cat.icon || '📁' }} {{ cat.name }}</span>
+            <span class="category-name">{{ cat.icon || '📁' }} {{ getCategoryName(cat.id!) }}</span>
             <span class="tag">{{ categoryCounts[cat.id!] || 0 }}</span>
           </div>
         </div>
@@ -176,7 +176,7 @@ let draggedQuestionId: number | null = null
 
 const selectedCategoryName = computed(() => {
   if (selectedCategoryId.value === null) return t('organize.allQuestions')
-  if (selectedCategoryId.value === 0) return t('common.unclassified')
+  if (selectedCategoryId.value === 0) return 'Uncategorized'
   const cat = categoryStore.getCategoryById(selectedCategoryId.value)
   return cat?.name || ''
 })
@@ -188,7 +188,7 @@ onMounted(async () => {
 
 async function loadData() {
   const all = await db.questions.toArray()
-  const uncat = await db.categories.where('name').equals(t('common.unclassified')).first()
+  const uncat = await db.categories.where('name').equals('Uncategorized').first()
 
   // Clean up old blob URLs
   for (const url of Object.values(imageDataUrls.value)) {
@@ -224,7 +224,7 @@ async function selectCategory(catId: number | null) {
 }
 
 async function updatePreview() {
-  const uncat = await db.categories.where('name').equals(t('common.unclassified')).first()
+  const uncat = await db.categories.where('name').equals('Uncategorized').first()
   const uncatId = uncat?.id || 0
 
   if (selectedCategoryId.value === null) {
@@ -263,7 +263,7 @@ async function onDrop(e: DragEvent, categoryId: number | null) {
 
   let targetCategoryId = categoryId
   if (categoryId === 0) {
-    const uncat = await db.categories.where('name').equals(t('common.unclassified')).first()
+  const uncat = await db.categories.where('name').equals('Uncategorized').first()
     targetCategoryId = uncat?.id || 0
   }
 
@@ -328,7 +328,10 @@ function openLightbox(q: Question) {
 
 function getCategoryName(categoryId: number): string {
   const cat = categoryStore.getCategoryById(categoryId)
-  return cat?.name || t('common.unclassified')
+  if (!cat) return 'Uncategorized'
+  if (cat.name === 'Uncategorized') return t('common.unclassified')
+  if (cat.name === 'Mastered') return t('mastered.title')
+  return cat.name
 }
 
 function closeLightbox() {
