@@ -48,7 +48,7 @@ onMounted(async () => {
 })
 
 async function loadMastered() {
-  const masteredCat = categoryStore.categories.find(c => c.name === t('mastered.title'))
+  const masteredCat = categoryStore.categories.find(c => c.name === 'Mastered')
   if (!masteredCat) {
     masteredQuestions.value = []
     return

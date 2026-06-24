@@ -188,7 +188,7 @@ async function markMastered() {
   if (!currentQuestion.value?.id) return
 
   // Find or create the "Mastered" category
-  const masteredName = t('mastered.title')
+  const masteredName = 'Mastered'
   let masteredCat = await db.categories.where('name').equals(masteredName).first()
   if (!masteredCat) {
     const id = await db.categories.add({

@@ -267,7 +267,7 @@ async function onDrop(e: DragEvent, categoryId: number | null) {
     targetCategoryId = uncat?.id || 0
   }
 
-  const masteredCat = categoryStore.categories.find(c => c.name === t('mastered.title'))
+  const masteredCat = categoryStore.categories.find(c => c.name === 'Mastered')
   const updates: Partial<Question> = { categoryId: targetCategoryId! }
 
   if (masteredCat && targetCategoryId !== masteredCat.id) {
